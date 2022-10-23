@@ -46,14 +46,15 @@ class VFile {
     }
 
     string readFileText() {
-        if (file_permission == (VPerm.read | VPerm.read_write))
+        import std.conv : to;
+        if (file_permission == VPerm.read || file_permission == VPerm.read_write)
             return this.contents;
         else
-            throw new PermissionException("readFileText(): Permission denied");
+            throw new PermissionException("readFileText(): Permission denied (permissions are " 
+            ~ this.file_permission.to!string ~ ")");
     }
 
     public string getFileName() {
-        
         return this.name;
     }
 
@@ -88,6 +89,10 @@ public:
 
     VFile[] getFiles() {
         return this.containerNode.files;
+    }
+
+    VDirectory[] getDirectories() {
+        return this.containerNode.directories;
     }
 
     VFile getFile(string byThisName) {

@@ -11,10 +11,10 @@ import std.conv : to;
 void main() {
     string file_name = "hello.txt";
     string file_text = "Sample file";
-
     VFileSys sys = new VFileSys();
 
     VDirectory root = sys.rootNode();
+    
 
     root.createDirectory(new VDirectory("test_directory"));
 
@@ -31,11 +31,10 @@ void main() {
     dirRef.addFile(file);
     dirRef.addFile(file2);
 
-    VFile f = dirRef.getFile(file_name);
+    dirRef.createDirectory(new VDirectory("test_dir2"));
 
-    foreach (VFile fi; dirRef.getFiles()) {
-        writeln(fi.getFileName() ~ 
-            "\ncontent length: " ~ f.readFileText().length.to!string ~ "\ncontent: " ~ f.readFileText());
-        
-    }
+    VDirectory dirRef2 = dirRef.getDirectory("test_dir2");
+    
+    dirRef2.addFile(file2);
+    writeln(dirRef2.getFiles());
 }
